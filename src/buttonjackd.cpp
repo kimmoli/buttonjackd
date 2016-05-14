@@ -40,10 +40,22 @@ int main(int argc, char **argv)
     callhandler = new CallHandler();
     uinThread = new QThread();
 
-    int fd = uin->openDevice("/dev/input/event6");
+    QString dev;
+
+    if (argc > 1)
+        if (QString(argv[1]).startsWith("event"))
+            dev = QString("/dev/input/%1").arg(argv[1]);
+
+    if (dev.isEmpty())
+    {
+        printf("buttonjackd: missing or incorrect argument. give event# where # is a number of evdev for button jack.\n");
+        return EXIT_FAILURE;
+    }
+
+    int fd = uin->openDevice(dev.toLocal8Bit().constData());
     if (fd == -1)
     {
-        printf("buttonjackd: error opening input device\n");
+        printf("buttonjackd: error opening input device %s\n", qPrintable(dev));
         return EXIT_FAILURE;
     }
 

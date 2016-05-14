@@ -3,7 +3,7 @@ Description=Button jack daemon
 After=user-session.target
 
 [Service]
-ExecStart=/usr/bin/buttonjackd
+ExecStart=/usr/bin/buttonjackd event6
 
 [Install]
 WantedBy=post-user-session.target
