@@ -11,6 +11,8 @@ ButtonManager::ButtonManager(QObject *parent) :
     pressedKey = 0;
 
     connect(longPress, SIGNAL(timeout()), this, SLOT(longPressExpired()));
+
+    callState = CallHandler::None;
 }
 
 /* BTN_1 and BTN_2
@@ -22,6 +24,7 @@ ButtonManager::ButtonManager(QObject *parent) :
  * KEY_MEDIA
  *
  * mpris play/pause
+ * answer incoming call or hangup active call
  *
  */
 
@@ -40,7 +43,12 @@ void ButtonManager::buttonStateChanged(int keycode, bool down)
 
         if (pressedKey == KEY_MEDIA)
         {
-            emit sendMpris2("PlayPause");
+            if (callState == CallHandler::None)
+                emit sendMpris2("PlayPause");
+            else if (callState == CallHandler::Ringing)
+                emit callOperation("answer");
+            else if (callState == CallHandler::Active)
+                emit callOperation("hangup");
         }
         else if (pressedKey == BTN_1)
         {
@@ -67,4 +75,9 @@ void ButtonManager::longPressExpired()
         emit sendMpris2("Previous");
         pressedKey = 0;
     }
+}
+
+void ButtonManager::callStateChanged(CallHandler::CallState newCallState)
+{
+    callState = newCallState;
 }

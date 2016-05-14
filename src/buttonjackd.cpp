@@ -15,6 +15,7 @@
 #include "buttonmanager.h"
 #include "volumecontrol.h"
 #include "mpriscontrol.h"
+#include "callhandler.h"
 
 int main(int argc, char **argv)
 {
@@ -29,12 +30,14 @@ int main(int argc, char **argv)
     UinputEvPoll *uin;
     VolumeControl *volcon;
     MprisControl *mpriscon;
+    CallHandler *callhandler;
     QThread *uinThread;
 
     uin = new UinputEvPoll();
     bm = new ButtonManager();
     volcon = new VolumeControl();
     mpriscon = new MprisControl();
+    callhandler = new CallHandler();
     uinThread = new QThread();
 
     int fd = uin->openDevice("/dev/input/event6");
@@ -50,6 +53,7 @@ int main(int argc, char **argv)
     }
 
     mpriscon->init();
+    callhandler->init();
 
     uin->moveToThread(uinThread);
 
@@ -59,6 +63,8 @@ int main(int argc, char **argv)
     QObject::connect(uin, SIGNAL(finished()), uinThread, SLOT(quit()), Qt::DirectConnection);
     QObject::connect(bm, SIGNAL(changeVolume(bool)), volcon, SLOT(changeVolume(bool)));
     QObject::connect(bm, SIGNAL(sendMpris2(QString)), mpriscon, SLOT(sendMpris2(QString)));
+    QObject::connect(bm, SIGNAL(callOperation(QString)), callhandler, SLOT(callOperation(QString)));
+    QObject::connect(callhandler, SIGNAL(callStateChanged(CallHandler::CallState)), bm, SLOT(callStateChanged(CallHandler::CallState)));
 
     uin->requestPolling(fd);
 

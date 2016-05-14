@@ -22,7 +22,8 @@ SOURCES += \
     src/uinputevpoll.cpp \
     src/buttonmanager.cpp \
     src/volumecontrol.cpp \
-    src/mpriscontrol.cpp
+    src/mpriscontrol.cpp \
+    src/callhandler.cpp
 
 OTHER_FILES += \
     rpm/$${TARGET}.spec \
@@ -32,4 +33,5 @@ HEADERS += \
     src/uinputevpoll.h \
     src/buttonmanager.h \
     src/volumecontrol.h \
-    src/mpriscontrol.h
+    src/mpriscontrol.h \
+    src/callhandler.h
