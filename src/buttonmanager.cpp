@@ -40,7 +40,7 @@ void ButtonManager::buttonStateChanged(int keycode, bool down)
     {
         longPress->stop();
 
-        if (pressedKey == BTN_0)
+        if (pressedKey == BTN_0 || pressedKey == KEY_MEDIA)
         {
             if (callState == CallHandler::None)
                 emit sendMpris2("PlayPause");
