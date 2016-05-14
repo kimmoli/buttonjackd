@@ -15,17 +15,16 @@ ButtonManager::ButtonManager(QObject *parent) :
     callState = CallHandler::None;
 }
 
-/* BTN_1 and BTN_2
- *
- * short presses controls volume on release
- * long presses mpris next and previous track
- * Note that this requires modified kernel, which has EV_KEY BTN_1 and BTN_2 instead of KEY_VOLUMEUP/DOWN
- *
- * KEY_MEDIA
+/* BTN_0
  *
  * mpris play/pause
  * answer incoming call or hangup active call
  *
+ * BTN_1 and BTN_2
+ *
+ * short presses controls volume on release
+ * long presses mpris next and previous track
+ * Note that this requires modified kernel, which has EV_KEY BTN_1 and BTN_2 instead of KEY_VOLUMEUP/DOWN
  */
 
 void ButtonManager::buttonStateChanged(int keycode, bool down)
@@ -41,7 +40,7 @@ void ButtonManager::buttonStateChanged(int keycode, bool down)
     {
         longPress->stop();
 
-        if (pressedKey == KEY_MEDIA)
+        if (pressedKey == BTN_0)
         {
             if (callState == CallHandler::None)
                 emit sendMpris2("PlayPause");
