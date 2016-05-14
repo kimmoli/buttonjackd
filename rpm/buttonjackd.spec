@@ -10,7 +10,7 @@ Name:       buttonjackd
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 
-Summary:    Tristate ambience switcher
+Summary:    Button Jack daemon for headset buttons
 Version:    0.0.devel
 Release:    1
 Group:      Qt/Qt
