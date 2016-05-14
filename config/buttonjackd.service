@@ -1,0 +1,9 @@
+[Unit]
+Description=Button jack daemon
+After=user-session.target
+
+[Service]
+ExecStart=/usr/bin/buttonjackd
+
+[Install]
+WantedBy=post-user-session.target
