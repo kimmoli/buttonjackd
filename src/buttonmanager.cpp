@@ -49,12 +49,14 @@ void ButtonManager::buttonStateChanged(int keycode, bool down)
             else if (callState == CallHandler::Active)
                 emit callOperation("hangup");
         }
-        else if (pressedKey == BTN_1)
+        else if (pressedKey == BTN_2 || pressedKey == BTN_3)
         {
+            /* Volume up */
             emit changeVolume(true);
         }
-        else if (pressedKey == BTN_2)
+        else if (pressedKey == BTN_1 || pressedKey == BTN_7)
         {
+            /* Volume down */
             emit changeVolume(false);
         }
     }
@@ -64,13 +66,15 @@ void ButtonManager::longPressExpired()
 {
     printf("buttonjackd: key %d pressed long\n", pressedKey);
 
-    if (pressedKey == BTN_1)
+    if (pressedKey == BTN_2 || pressedKey == BTN_3)
     {
+        /* Next track */
         emit sendMpris2("Next");
         pressedKey = 0;
     }
-    else if (pressedKey == BTN_2)
+    else if (pressedKey == BTN_1 || pressedKey == BTN_7)
     {
+        /* Previous track */
         emit sendMpris2("Previous");
         pressedKey = 0;
     }
