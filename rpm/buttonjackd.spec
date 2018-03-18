@@ -41,20 +41,20 @@ rm -rf %{buildroot}
 %preun
 # in case of complete removal, stop and disable
 if [ "$1" = "0" ]; then
-  systemctl-user stop buttonjackd
-  systemctl-user disable buttonjackd
+  systemctl-user stop buttonjackd || true
+  systemctl-user disable buttonjackd || true
 fi
 
 %post
-systemctl-user daemon-reload
-systemctl-user start buttonjackd
-systemctl-user enable buttonjackd
+systemctl-user daemon-reload || true
+systemctl-user start buttonjackd || true
+systemctl-user enable buttonjackd || true
 
 %pre
 # In case of update, stop first
 if [ "$1" = "2" ]; then
-  systemctl-user stop buttonjackd
-  systemctl-user disable buttonjackd
+  systemctl-user stop buttonjackd || true
+  systemctl-user disable buttonjackd || true
 fi
 
 %files
